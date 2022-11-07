@@ -1,26 +1,44 @@
-import { Title } from "../styled"
-import { Link } from "react-router-dom"
-import { LinkWord } from "../styled"
-import styled from "styled-components"
+import { Title } from "../styled";
+import { Link } from "react-router-dom";
+import { LinkWord } from "../styled";
+import styled from "styled-components";
+import { useEffect, useState } from "react";
+import { getSpaces } from "../store/spaces/thunks";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { selectSpaces } from "../store/spaces/selector";
+import { style } from "@mui/system";
+import Space from "../components/Space";
 
 export const Homepage = () => {
+  const dispatch = useDispatch();
+  const spaces = useSelector(selectSpaces);
+
+  useEffect(() => {
+    dispatch(getSpaces());
+  }, [dispatch]);
 
   return (
     <Container>
-     <h3>Hello there 👋</h3>
-     <p>General information:</p>
-     <ul>
-      <li>Go to your backend and modify the config url</li>
-      <li>Make sure you clicked on the <b>use template</b> button on github</li>
-      <li>This template is using <a style={LinkWord} target="_blank" href="https://styled-components.com/">styled components</a>, you don't have to use it</li>
-      <li>You don't have to follow the folder structure, feel free to adapt to your own</li>
-      <li>Login and SignUp are already implemented</li>
-      <li>Modify this page to create your own homeepage</li>
-     </ul>
+      <h2>Spaces</h2>
+      {spaces.map((space) => {
+        return (
+          <Space
+            key={space.id}
+            id={space.id}
+            userId={space.userId}
+            title={space.title}
+            description={space.description}
+            backgroundColor={space.backgroundColor}
+            color={space.color}
+            created={space.createdAt}
+          />
+        );
+      })}
     </Container>
-  )
-}
+  );
+};
 
 const Container = styled.div`
-  margin: 20px
-`
+  margin: 20px;
+`;
