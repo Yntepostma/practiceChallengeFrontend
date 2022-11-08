@@ -4,13 +4,36 @@ import { selectToken } from "./selectors";
 import { appLoading, appDoneLoading, setMessage } from "../appState/slice";
 import { showMessageWithTimeout } from "../appState/thunks";
 import { loginSuccess, logOut, tokenStillValid } from "./slice";
+import { setPostMessage } from "./slice";
 
 export const deleteStory = (id) => async (dispatch, getState) => {
-  const response = await axios.delete(`${apiUrl}/stories`, {
-    data: { id: parseInt(id) },
-  });
+  const response = await axios.delete(`${apiUrl}/stories/${id}`);
   console.log(response);
+  dispatch(getUserWithStoredToken());
 };
+
+export const addNewPost =
+  ({ name, content, imageUrl, spaceId }) =>
+  async (dispatch, getState) => {
+    const token = getState().user.token;
+    try {
+      const response = await axios.post(
+        `${apiUrl}/stories`,
+
+        {
+          name,
+          content,
+          imageUrl,
+          spaceId,
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      dispatch(showMessageWithTimeout("Success", true, "Message created"));
+      console.log(response);
+    } catch (e) {
+      console.log(e.data);
+    }
+  };
 
 export const signUp = (name, email, password) => {
   return async (dispatch, getState) => {
@@ -60,7 +83,6 @@ export const login = (email, password) => {
         email,
         password,
       });
-      console.log("response in thunk", response.data);
 
       dispatch(
         loginSuccess({
@@ -113,7 +135,6 @@ export const getUserWithStoredToken = () => {
       });
 
       // token is still valid
-      console.log("logged in", response.data);
       dispatch(
         tokenStillValid({ user: response.data, space: response.data.space })
       );

@@ -4,6 +4,8 @@ const initialState = {
   token: localStorage.getItem("token"),
   profile: null,
   mySpace: null,
+  message: "",
+  form: false,
 };
 
 export const userSlice = createSlice({
@@ -26,9 +28,22 @@ export const userSlice = createSlice({
       state.profile = action.payload.user;
       state.mySpace = action.payload.space;
     },
+    setPostMessage: (state, action) => {
+      console.log("payload", action.payload.data);
+      state.message = action.payload.data;
+    },
+    toggleForm: (state, action) => {
+      state.form = !state.form;
+    },
   },
 });
 
-export const { loginSuccess, logOut, tokenStillValid } = userSlice.actions;
+export const {
+  loginSuccess,
+  logOut,
+  tokenStillValid,
+  setPostMessage,
+  toggleForm,
+} = userSlice.actions;
 
 export default userSlice.reducer;
