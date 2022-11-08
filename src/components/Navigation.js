@@ -11,7 +11,7 @@ export const Navigation = () => {
   const dispatch = useDispatch();
 
   const token = useSelector(selectToken);
-  // const space = useSelector(selectSpace)
+  const space = useSelector(selectSpace);
 
   return (
     <Nav>
@@ -25,7 +25,7 @@ export const Navigation = () => {
       </Hamburger>
       <Menu open={open}>
         <div>
-          {!token ? "" : <MenuLink to="/spaces/:">Empty 1</MenuLink>}
+          {!token ? "" : <MenuLink to={`/me`}>My Space</MenuLink>}
           <MenuLink to="/empty2">Empty 2</MenuLink>
           {token ? (
             <button onClick={() => dispatch(logOut())}>Logout</button>

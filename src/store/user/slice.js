@@ -11,7 +11,7 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     loginSuccess: (state, action) => {
-      console.log("payload in slice", action.payload);
+      console.log("payload in slice user", action.payload);
       localStorage.setItem("token", action.payload.token);
       state.token = action.payload.token;
       state.profile = action.payload.user;

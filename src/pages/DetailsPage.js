@@ -12,7 +12,7 @@ export const DetailsPage = () => {
 
   useEffect(() => {
     dispatch(getSpacesWStories());
-  }, [dispatch]);
+  }, [dispatch, id]);
 
   const spaceAndStory = useSelector(selectSpacesWithStories(parseInt(id)));
 

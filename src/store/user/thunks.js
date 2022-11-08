@@ -5,6 +5,13 @@ import { appLoading, appDoneLoading, setMessage } from "../appState/slice";
 import { showMessageWithTimeout } from "../appState/thunks";
 import { loginSuccess, logOut, tokenStillValid } from "./slice";
 
+export const deleteStory = (id) => async (dispatch, getState) => {
+  const response = await axios.delete(`${apiUrl}/stories`, {
+    data: { id: parseInt(id) },
+  });
+  console.log(response);
+};
+
 export const signUp = (name, email, password) => {
   return async (dispatch, getState) => {
     dispatch(appLoading());
@@ -53,13 +60,13 @@ export const login = (email, password) => {
         email,
         password,
       });
-      console.log(response);
+      console.log("response in thunk", response.data);
 
       dispatch(
         loginSuccess({
           token: response.data.token,
           user: response.data.user,
-          space: response.data.user.space,
+          space: response.data.space,
         })
       );
       dispatch(showMessageWithTimeout("success", false, "welcome back!", 1500));
