@@ -6,6 +6,24 @@ import { showMessageWithTimeout } from "../appState/thunks";
 import { loginSuccess, logOut, tokenStillValid } from "./slice";
 import { setPostMessage } from "./slice";
 
+export const editSpace =
+  ({ id, title, description, backgroundColor, color }) =>
+  async (dispatch, getState) => {
+    const token = getState().user.token;
+    const response = await axios.put(
+      `${apiUrl}/spaces/${id}`,
+      {
+        title,
+        description,
+        backgroundColor,
+        color,
+      },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    dispatch(getUserWithStoredToken());
+    console.log(response);
+  };
+
 export const deleteStory = (id) => async (dispatch, getState) => {
   const response = await axios.delete(`${apiUrl}/stories/${id}`);
   console.log(response);
@@ -28,8 +46,8 @@ export const addNewPost =
         },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      dispatch(showMessageWithTimeout("Success", true, "Message created"));
-      console.log(response);
+      dispatch(showMessageWithTimeout("Success", false, "Message created"));
+      dispatch(getUserWithStoredToken());
     } catch (e) {
       console.log(e.data);
     }

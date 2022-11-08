@@ -6,6 +6,7 @@ const initialState = {
   mySpace: null,
   message: "",
   form: false,
+  edit: false,
 };
 
 export const userSlice = createSlice({
@@ -35,6 +36,9 @@ export const userSlice = createSlice({
     toggleForm: (state, action) => {
       state.form = !state.form;
     },
+    toggleEdit: (state, action) => {
+      state.edit = !state.edit;
+    },
   },
 });
 
@@ -44,6 +48,7 @@ export const {
   tokenStillValid,
   setPostMessage,
   toggleForm,
+  toggleEdit,
 } = userSlice.actions;
 
 export default userSlice.reducer;

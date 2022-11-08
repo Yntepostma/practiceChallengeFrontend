@@ -2,3 +2,15 @@
   width: 450px;
   height: 350px;
 }
+
+.form {
+  background-color: white;
+  color: black;
+  margin: 10px, auto;
+  border: 2px solid black;
+}
+
+.containter {
+  display: flex;
+  justify-content: center;
+}
